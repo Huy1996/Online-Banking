@@ -1,0 +1,6 @@
+[submodule "Banking-API"]
+	path = Banking-API
+	url = https://github.com/Huy1996/Banking-API.git
+[submodule "React-Banking"]
+	path = React-Banking
+	url = https://github.com/Huy1996/React-Banking.git

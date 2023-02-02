@@ -1,0 +1,47 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_PASSWORD=test123
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./Banking-API
+    depends_on:
+      - postgres
+    volumes:
+      - ./Banking-API:/app/backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./Banking-API/.env
+    networks:
+      - frontend
+      - backend
+  web:
+    build:
+      dockerfile: Dockerfile
+      context: ./React-Banking
+    volumes:
+      - /app/frontend/node_modules
+      - ./React-Banking:/app/frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+volumes:
+  pgdata:
+    driver: local
